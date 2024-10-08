@@ -1,4 +1,4 @@
-import React, { useMemo, useContext } from 'react'
+import React, { useContext } from 'react'
 
 import Select from '../../Select'
 import Option from '../../Select/Option'
@@ -6,10 +6,7 @@ import { ShoppingContent } from '../ShoppingCart/ShoppingContent'
 
 const CartProd = (props) => {
   const { item } = props;
-  const [dispatch] = useContext(ShoppingContent);
-  const memoTotal = useMemo(() => {
-    return item.price * item.prodQty;
-  }, [item])
+  const [state, dispatch] = useContext(ShoppingContent);
   const handleSelect = (e) => {
     e.preventDefault();
     const prodQty = parseInt(e.target.value);
@@ -66,7 +63,7 @@ const CartProd = (props) => {
             })}
           </Select>
           <button type='button' className='btn btn-sm rounded'><i className="bi bi-dash" onClick={(e) => handleMinusCart(item)}></i></button>
-          {memoTotal > 0 && <div className='cartProd-total'><strong>NT$ {memoTotal}</strong></div>}
+          {item.price * item.prodQty > 0 && <div className='cartProd-total'><strong>NT$ {item.price * item.prodQty}</strong></div>}
 
         </div>
       </div>

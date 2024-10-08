@@ -1,25 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { ShoppingContent } from '../ShoppingCart/ShoppingContent'
 import Select from '../../Select'
 import Option from '../../Select/Option'
 
 const ProdCard = (props) => {
-  const { prodData } = props
-  const [select, setSelect] = useState(1);
+  let count = 1
+  const { prodData } = props;
   const [state, dispatch] = useContext(ShoppingContent);
   const handleAddCart = (state) => {
     dispatch({
       type: 'ADD_TO_CART',
       payload: {
-        ...state,
-        prodQty: select
+        ...state, prodQty: count
       }
     })
-  }
-  console.log(select)
-  const handleSelect = (e) => {
-    e.preventDefault();
-    setSelect(parseInt(e.target.value))
+    console.log(state)
   }
   return (
     <>
@@ -35,7 +30,15 @@ const ProdCard = (props) => {
                 <span>NT$ {prodItem.price}</span>
               </h5>
               <div className='d-grid'>
-                <Select selectState={state.prodQty === 0 ? 0 : state.prodQty} handleSelect={(e) => handleSelect(e)}>
+                <Select selectState={this} handleSelect={(e) => {
+                  e.preventDefault();
+                  count = parseInt(e.target.value);
+                  dispatch({
+                    type: 'CHANGE_PROD_ITEM',
+                    payload: { ...prodItem, prodQty: count }
+                  })
+                  return count
+                }}>
                   {[...Array(10)].map((value, index) => {
                     return (
                       <Option key={`_${index + 1}`} optionText={index + 1} />
@@ -47,9 +50,8 @@ const ProdCard = (props) => {
               <div className='d-grid'>
                 <button type='button'
                   className="btn btn-primary btn-sm"
-                  onClick={() => {
+                  onClick={(e) => {
                     handleAddCart(prodItem)
-                    setSelect(1)
                   }}>Add</button>
               </div>
             </div>
