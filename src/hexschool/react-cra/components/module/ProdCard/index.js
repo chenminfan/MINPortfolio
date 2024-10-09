@@ -14,7 +14,6 @@ const ProdCard = (props) => {
         ...state, prodQty: count
       }
     })
-    state.prodQty = 1
     console.log(state)
   }
   return (
