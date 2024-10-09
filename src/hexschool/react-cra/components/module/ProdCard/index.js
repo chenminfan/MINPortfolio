@@ -14,6 +14,7 @@ const ProdCard = (props) => {
         ...state, prodQty: count
       }
     })
+    state.prodQty = 1
     console.log(state)
   }
   return (
@@ -30,7 +31,7 @@ const ProdCard = (props) => {
                 <span>NT$ {prodItem.price}</span>
               </h5>
               <div className='d-grid'>
-                <Select selectState={this} handleSelect={(e) => {
+                <Select selectState={state.prodQty} handleSelect={(e) => {
                   e.preventDefault();
                   count = parseInt(e.target.value);
                   dispatch({

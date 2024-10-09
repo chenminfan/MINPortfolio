@@ -13,7 +13,7 @@ export const ShoppingContent = createContext({});
 
 export const cartReducer = (state, action) => {
   let statItem = state.statItem || action.payload
-  let stateQty = action.payload.prodQty ? action.payload.prodQty : 1;
+  // let stateQty = action.payload.prodQty ? action.payload.prodQty : 1;
   const cartList = [...state.cartList];
   // 當前索引
   const index = state.cartList.findIndex((item) => item.id === action.payload.id)
@@ -33,7 +33,6 @@ export const cartReducer = (state, action) => {
         ...state, //包含預設狀態
         cartList,
         statItem: '',
-        stateQty: 1,
         checkTotal: CALCULATIONAL(cartList),
       };
     case "MINUS_TO_CART":
@@ -63,12 +62,16 @@ export const cartReducer = (state, action) => {
         checkTotal: CALCULATIONAL(cartList),
       };
     case "CHANGE_PROD_ITEM":
-      statItem = action.payload
-      stateQty = action.payload.prodQty
+      if (index === -1) {
+        statItem = action.payload
+      } else {
+        cartList[index].prodQty = action.payload.prodQty
+      }
+
+
       return {
         ...state, //包含預設狀態
         statItem,
-        stateQty,
         checkTotal: CALCULATIONAL(cartList),
       };
     /* falls through */
