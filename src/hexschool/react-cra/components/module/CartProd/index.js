@@ -6,10 +6,10 @@ import { ShoppingContent } from '../ShoppingCart/ShoppingContent'
 
 const CartProd = (props) => {
   const { item } = props;
-  const [dispatch] = useContext(ShoppingContent);
+  const [state, dispatch] = useContext(ShoppingContent);
   const memoTotal = useMemo(() => {
     return item.price * item.prodQty;
-  }, [item])
+  }, [state])
   const handleSelect = (e) => {
     e.preventDefault();
     const prodQty = parseInt(e.target.value);

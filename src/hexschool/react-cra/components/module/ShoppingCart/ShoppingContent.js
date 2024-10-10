@@ -11,6 +11,7 @@ export const cartReducer = (state, action) => {
   const cartList = [...state.cartList]
   // 當前索引
   const index = state.cartList.findIndex((item) => item.id === action.payload.id)
+  let statQty = state.cartList.prodQty
   console.log(state)
   console.log(action)
   switch (action.type) {
@@ -52,8 +53,14 @@ export const cartReducer = (state, action) => {
         cartList,
         checkTotal: CALCULATIONAL(cartList),
       };
-    case "Select":
-
+    case "CHANGE_PROD_ITEM":
+      statQty = action.payload.prodQty
+      return {
+        ...state, //包含預設狀態
+        cartList,
+        statQty,
+        checkTotal: CALCULATIONAL(cartList),
+      };
     /* falls through */
     default: return state;
   }
